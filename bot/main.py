@@ -5,7 +5,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from webhook_server import app, discord_client
 import uvicorn
-from db import init_db
+from db import init_db, init_mapping_table
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
@@ -22,6 +22,7 @@ async def on_ready():
 
 async def main():
     init_db()
+    init_mapping_table()
     config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
     server = uvicorn.Server(config)
     await asyncio.gather(
