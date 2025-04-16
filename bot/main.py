@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from webhook_server import app, discord_client
 import uvicorn
 from db import init_db, init_mapping_table
+await bot.load_extension("cogs.admin")
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
