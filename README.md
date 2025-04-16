@@ -1,4 +1,3 @@
-readme_content = """\
 # Discord WHMCS Integration Bot
 
 A fully docker-compatible Discord bot that integrates with WHMCS for product-role mapping, invoice tracking, and media requests via Radarr/Sonarr.
