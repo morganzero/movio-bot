@@ -1,5 +1,7 @@
 import sqlite3
 
+DB_FILE = "users.db"
+
 def init_db():
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
@@ -26,3 +28,30 @@ def get_discord_id_by_email(email: str):
     result = cursor.fetchone()
     conn.close()
     return result[0] if result else None
+
+def init_mapping_table():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS product_role_map (
+            product_name TEXT PRIMARY KEY,
+            role_name TEXT NOT NULL
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def get_role_by_product(product_name: str):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT role_name FROM product_role_map WHERE product_name = ?", (product_name,))
+    result = cursor.fetchone()
+    conn.close()
+    return result[0] if result else None
+
+def add_product_role_mapping(product_name: str, role_name: str):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("INSERT OR REPLACE INTO product_role_map (product_name, role_name) VALUES (?, ?)", (product_name, role_name))
+    conn.commit()
+    conn.close()
