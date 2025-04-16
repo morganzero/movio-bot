@@ -1,9 +1,4 @@
-import json
 import discord
-
-with open("product_roles.json", "r") as f:
-    PRODUCT_ROLE_MAP = json.load(f)
-
 from db import get_role_by_product
 
 async def assign_roles_from_products(products, member: discord.Member):
