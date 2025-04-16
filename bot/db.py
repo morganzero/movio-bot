@@ -55,3 +55,20 @@ def add_product_role_mapping(product_name: str, role_name: str):
     cursor.execute("INSERT OR REPLACE INTO product_role_map (product_name, role_name) VALUES (?, ?)", (product_name, role_name))
     conn.commit()
     conn.close()
+
+def get_all_product_role_mappings():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT product_name, role_name FROM product_role_map")
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+def remove_product_role_mapping(product_name: str):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM product_role_map WHERE product_name = ?", (product_name,))
+    deleted = cursor.rowcount
+    conn.commit()
+    conn.close()
+    return deleted > 0
